@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		5945F0ED2B2CEE540011BC2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0EC2B2CEE540011BC2F /* AppDelegate.swift */; };
 		5945F0EF2B2CEE540011BC2F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0EE2B2CEE540011BC2F /* SceneDelegate.swift */; };
-		5945F0F12B2CEE540011BC2F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0F02B2CEE540011BC2F /* ViewController.swift */; };
-		5945F0F42B2CEE540011BC2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5945F0F22B2CEE540011BC2F /* Main.storyboard */; };
+		5945F0F12B2CEE540011BC2F /* HomeBooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0F02B2CEE540011BC2F /* HomeBooksViewController.swift */; };
 		5945F0F72B2CEE540011BC2F /* Bookstastic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0F52B2CEE540011BC2F /* Bookstastic.xcdatamodeld */; };
 		5945F0F92B2CEE550011BC2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5945F0F82B2CEE550011BC2F /* Assets.xcassets */; };
 		5945F0FC2B2CEE550011BC2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5945F0FA2B2CEE550011BC2F /* LaunchScreen.storyboard */; };
@@ -40,8 +39,7 @@
 		5945F0E92B2CEE540011BC2F /* Bookstastic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookstastic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5945F0EC2B2CEE540011BC2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5945F0EE2B2CEE540011BC2F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5945F0F02B2CEE540011BC2F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5945F0F32B2CEE540011BC2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5945F0F02B2CEE540011BC2F /* HomeBooksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBooksViewController.swift; sourceTree = "<group>"; };
 		5945F0F62B2CEE540011BC2F /* Bookstastic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bookstastic.xcdatamodel; sourceTree = "<group>"; };
 		5945F0F82B2CEE550011BC2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5945F0FB2B2CEE550011BC2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -101,10 +99,9 @@
 		5945F0EB2B2CEE540011BC2F /* Bookstastic */ = {
 			isa = PBXGroup;
 			children = (
+				5945F11F2B2CFCD50011BC2F /* Modules */,
 				5945F0EC2B2CEE540011BC2F /* AppDelegate.swift */,
 				5945F0EE2B2CEE540011BC2F /* SceneDelegate.swift */,
-				5945F0F02B2CEE540011BC2F /* ViewController.swift */,
-				5945F0F22B2CEE540011BC2F /* Main.storyboard */,
 				5945F0F82B2CEE550011BC2F /* Assets.xcassets */,
 				5945F0FA2B2CEE550011BC2F /* LaunchScreen.storyboard */,
 				5945F0FD2B2CEE550011BC2F /* Info.plist */,
@@ -128,6 +125,22 @@
 				5945F1122B2CEE550011BC2F /* BookstasticUITestsLaunchTests.swift */,
 			);
 			path = BookstasticUITests;
+			sourceTree = "<group>";
+		};
+		5945F11F2B2CFCD50011BC2F /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				5945F1202B2CFCF30011BC2F /* Home */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		5945F1202B2CFCF30011BC2F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				5945F0F02B2CEE540011BC2F /* HomeBooksViewController.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,7 +249,6 @@
 			files = (
 				5945F0FC2B2CEE550011BC2F /* LaunchScreen.storyboard in Resources */,
 				5945F0F92B2CEE550011BC2F /* Assets.xcassets in Resources */,
-				5945F0F42B2CEE540011BC2F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5945F0F12B2CEE540011BC2F /* ViewController.swift in Sources */,
+				5945F0F12B2CEE540011BC2F /* HomeBooksViewController.swift in Sources */,
 				5945F0ED2B2CEE540011BC2F /* AppDelegate.swift in Sources */,
 				5945F0F72B2CEE540011BC2F /* Bookstastic.xcdatamodeld in Sources */,
 				5945F0EF2B2CEE540011BC2F /* SceneDelegate.swift in Sources */,
@@ -301,14 +313,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5945F0F22B2CEE540011BC2F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5945F0F32B2CEE540011BC2F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5945F0FA2B2CEE550011BC2F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -451,9 +455,8 @@
 				INFOPLIST_FILE = Bookstastic/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -479,9 +482,8 @@
 				INFOPLIST_FILE = Bookstastic/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
