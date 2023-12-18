@@ -8,5 +8,7 @@
 import Foundation
 
 protocol HomeBooksViewModelProtocol {
+    var booksList: BooksList { get set }
     
+    func bind(input: HomeBooksViewModelInput) -> HomeBooksViewModelOutput
 }

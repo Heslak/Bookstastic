@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class HomeBooksUseCase: HomeBooksUseCaseProtocol {
     
@@ -13,5 +14,9 @@ class HomeBooksUseCase: HomeBooksUseCaseProtocol {
     
     init(repository: HomeBooksRepositoryProtocol) {
         self.repository = repository
+    }
+    
+    func fetchBooks(searchText: String) -> AnyPublisher<BooksList, Error>? {
+        return repository.fetchBooks(searchText: searchText)
     }
 }

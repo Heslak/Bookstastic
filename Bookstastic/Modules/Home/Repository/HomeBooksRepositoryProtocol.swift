@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Combine
 
 protocol HomeBooksRepositoryProtocol {
-    
+    func fetchBooks(searchText: String) -> AnyPublisher<BooksList, Error>?
 }
 
