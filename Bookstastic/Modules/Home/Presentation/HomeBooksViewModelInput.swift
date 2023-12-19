@@ -12,8 +12,8 @@ struct HomeBooksViewModelInput {
     let viewDidLoadPublisher = PassthroughSubject<Void, Never>()
     let fetchBooksPublisher = PassthroughSubject<String, Never>()
     let cleanBooksListPublisher = PassthroughSubject<Void, Never>()
-    let changeFavoritePublisher = PassthroughSubject<IndexPath, Never>()
     
+    var changeFavoritePublisher = PassthroughSubject<IndexPath, Never>()
     var increaseCounterPublisher = PassthroughSubject<Void, Never>()
     var decreaseCounterPublisher = PassthroughSubject<Void, Never>()
 }

@@ -158,7 +158,9 @@ extension HomeBooksViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? BookTableViewCell {
-            cell.configure(book: viewModel.booksList.items[indexPath.row])
+            cell.configure(book: viewModel.booksList.items[indexPath.row],
+                           changeFavoritePublisher: inputViewModel.changeFavoritePublisher,
+                           indexPath: indexPath)
         }
     }
     
@@ -167,7 +169,7 @@ extension HomeBooksViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        inputViewModel.changeFavoritePublisher.send(indexPath)
+        print("go to Book Detail")
     }
 }
 

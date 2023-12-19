@@ -89,8 +89,12 @@ class BookTableViewCell: UITableViewCell {
         currentUrl = ""
     }
     
-    func configure(book: Book) {
-        bookInfoView.configure(book: book)
+    func configure(book: Book,
+                   changeFavoritePublisher: PassthroughSubject<IndexPath, Never>,
+                   indexPath: IndexPath) {
+        bookInfoView.configure(book: book,
+                               changeFavoritePublisher: changeFavoritePublisher,
+                               indexPath: indexPath)
         guard let currentUrl = book.volumeInfo.imageLinks?.smallThumbnail else { return }
         self.currentUrl = currentUrl
         

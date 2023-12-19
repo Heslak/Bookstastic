@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class BookInfoView: UIView {
     
@@ -28,14 +29,19 @@ class BookInfoView: UIView {
         return bDescriptionLabel
     }()
     
-    private lazy var favoriteImageView: UIImageView = {
-        let fImageView = UIImageView()
+    private lazy var favoriteButton: UIButton = {
+        let fImageView = UIButton()
         fImageView.translatesAutoresizingMaskIntoConstraints = false
-        fImageView.image = UIImage(systemName: "star")
+        let starImage = UIImage(systemName: "star")
+        fImageView.setImage(starImage, for: .normal)
         fImageView.contentMode = .scaleAspectFill
+        fImageView.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
         return fImageView
     }()
         
+    private var indexPath = IndexPath()
+    var changeFavoritePublisher = PassthroughSubject<IndexPath, Never>()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -48,7 +54,7 @@ class BookInfoView: UIView {
     func setupView() {
         addSubview(bookTitleLabel)
         addSubview(bookDescriptionLabel)
-        addSubview(favoriteImageView)
+        addSubview(favoriteButton)
         
         NSLayoutConstraint.activate([
             bookTitleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15.0),
@@ -60,32 +66,41 @@ class BookInfoView: UIView {
             bookDescriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15.0),
             bookDescriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             bookDescriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18.0),
-            bookDescriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: favoriteImageView.topAnchor,
+            bookDescriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: favoriteButton.topAnchor,
                                                          constant: -5),
 
-            favoriteImageView.heightAnchor.constraint(equalToConstant: 20.0),
-            favoriteImageView.widthAnchor.constraint(equalToConstant: 20.0),
-            favoriteImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15.0),
-            favoriteImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15.0)
+            favoriteButton.heightAnchor.constraint(equalToConstant: 20.0),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 20.0),
+            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15.0),
+            favoriteButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15.0)
         ])
     }
     
-    func configure(book: Book) {
+    func configure(book: Book,
+                   changeFavoritePublisher: PassthroughSubject<IndexPath, Never>,
+                   indexPath: IndexPath) {
+        self.indexPath = indexPath
+        self.changeFavoritePublisher = changeFavoritePublisher
+        
         bookTitleLabel.text = book.volumeInfo.title
         bookDescriptionLabel.text = book.volumeInfo.getAuthors()
-        
         let favoriteImage = UIImage(systemName: book.isFavorite ? "star.fill" : "star")
-        favoriteImageView.image = favoriteImage
+        favoriteButton.setImage(favoriteImage, for: .normal)
     }
     
     func changeFavorite(book: Book) {
         let favoriteImage = UIImage(systemName: book.isFavorite ? "star.fill" : "star")
         
-        UIView.transition(with: favoriteImageView,
+        UIView.transition(with: favoriteButton,
                           duration: 0.3,
                           options: .transitionFlipFromLeft ,
                           animations: {
-            self.favoriteImageView.image = favoriteImage
+            self.favoriteButton.setImage(favoriteImage, for: .normal)
         })
+    }
+    
+    // MARK: - Private Methods
+    @objc private func favoriteButtonPressed() {
+        changeFavoritePublisher.send(indexPath)
     }
 }
