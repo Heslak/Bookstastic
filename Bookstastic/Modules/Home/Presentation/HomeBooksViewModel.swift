@@ -32,6 +32,14 @@ class HomeBooksViewModel: HomeBooksViewModelProtocol {
             self?.fetchLocalBooks()
         }.store(in: &cancellable)
         
+        input.viewDidAppearPublisher.sink { [weak self] isSearching in
+            if !isSearching {
+                self?.fetchLocalBooks()
+            } else {
+                self?.checkIfIsFavorite()
+            }
+        }.store(in: &cancellable)
+        
         input.fetchBooksPublisher.sink { [weak self] searchText in
             self?.fetchBooks(with: searchText)
         }.store(in: &cancellable)
@@ -47,7 +55,7 @@ class HomeBooksViewModel: HomeBooksViewModelProtocol {
         input.increaseCounterPublisher.sink { [weak self] in
             self?.increaseCounter()
         }.store(in: &cancellable)
-        
+
         input.decreaseCounterPublisher.sink { [weak self] in
             self?.decreaseCounter()
         }.store(in: &cancellable)
@@ -77,8 +85,18 @@ class HomeBooksViewModel: HomeBooksViewModelProtocol {
             }
         } receiveValue: { [weak self] booksList in
             self?.booksList = booksList
-            self?.output.showFetchResultsPublisher.send()
+            self?.checkIfIsFavorite()
         }.store(in: &cancellable)
+    }
+    
+    private func checkIfIsFavorite() {
+        for index in 0..<booksList.items.count {
+            useCase.checkIfIsFavorite(book: booksList.items[index]).sink { [weak self] isFavorite in
+                self?.booksList.items[index].isFavorite = isFavorite
+            }.store(in: &cancellable)
+        }
+        
+        output.showFetchResultsPublisher.send()
     }
     
     private func cleanBooskList(isSearching: Bool) {

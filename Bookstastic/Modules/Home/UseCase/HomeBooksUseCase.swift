@@ -31,4 +31,8 @@ class HomeBooksUseCase: HomeBooksUseCaseProtocol {
     func removeBookAsFavorite(book: Book) -> AnyPublisher<Bool, Never> {
         return repository.removeBookAsFavorite(book: book)
     }
+    
+    func checkIfIsFavorite(book: Book) -> AnyPublisher<Bool, Never> {
+        return repository.checkIfIsFavorite(book: book)
+    }
 }

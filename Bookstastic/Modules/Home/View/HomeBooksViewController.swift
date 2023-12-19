@@ -10,7 +10,18 @@ import Combine
 
 class HomeBooksViewController: UIViewController {
     
+    typealias Strings = HomeBooksStrings
     // MARK: - UI Components
+    
+    
+    private lazy var verticalStackView: UIStackView = {
+        let vStackView = UIStackView()
+        vStackView.axis = .vertical
+        vStackView.translatesAutoresizingMaskIntoConstraints = false
+        vStackView.distribution = .fill
+        return vStackView
+    }()
+    
     private lazy var booksTableView: UITableView = {
         let bTableView = UITableView()
         bTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +39,7 @@ class HomeBooksViewController: UIViewController {
     private lazy var pagingView: PagingView = {
         let pView = PagingView()
         pView.translatesAutoresizingMaskIntoConstraints = false
-        pView.alpha = 0.0
+        pView.isHidden = true
         return pView
     }()
     
@@ -57,24 +68,24 @@ class HomeBooksViewController: UIViewController {
         bind()
         inputViewModel.viewDidLoadPublisher.send()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        inputViewModel.viewDidAppearPublisher.send(searchController.isActive)
+    }
 
     // MARK: - Private Methods
     private func setupController() {
-        view.addSubview(booksTableView)
-        view.addSubview(pagingView)
+        view.addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(booksTableView)
+        verticalStackView.addArrangedSubview(pagingView)
         view.backgroundColor = .systemGray6
-        title = "Books"
+        title = Strings.homeTitle
         
         NSLayoutConstraint.activate([
-            booksTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            booksTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            booksTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            pagingView.topAnchor.constraint(equalTo: booksTableView.bottomAnchor),
-            pagingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pagingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            pagingView.heightAnchor.constraint(equalToConstant: 48.0),
-            pagingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            verticalStackView.topAnchor.constraint(equalTo: view.topAnchor),
+            verticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            verticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            verticalStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -82,7 +93,7 @@ class HomeBooksViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.placeholder = "Search..."
+        searchController.searchBar.placeholder = Strings.search
         
         navigationItem.searchController = searchController
         definesPresentationContext = true
@@ -102,6 +113,10 @@ class HomeBooksViewController: UIViewController {
         output.showFavoriteChangePublisher.sink { [weak self] indexPath in
             self?.changeFavorite(for: indexPath)
         }.store(in: &cancellable)
+        
+        output.showErrorAlertPublisher.sink { [weak self] in
+            self?.showErrorAlert()
+        }.store(in: &cancellable)
     }
     
     private func fillWithData() {
@@ -110,6 +125,8 @@ class HomeBooksViewController: UIViewController {
                               duration: 0.3,
                               options: .transitionCrossDissolve) {
                 self.booksTableView.reloadData()
+            } completion: { _ in
+                self.hideOrShowPaging()
             }
             
             self.pagingView.updateCounter(current: (self.viewModel.currentIndex/10 + 1),
@@ -133,12 +150,28 @@ class HomeBooksViewController: UIViewController {
     }
     
     private func hideOrShowPaging() {
-        UIView.transition(with: booksTableView,
-                          duration: 0.3,
-                          options: .transitionCrossDissolve) {
-            let hideOrShow = self.viewModel.booksList.items.count == 0 && self.viewModel.currentIndex == 0
-            self.pagingView.alpha = hideOrShow ? 0.0 : 1.0
-        }
+        let hideOrShow = !self.searchController.isActive
+        self.pagingView.isHidden = hideOrShow
+    }
+    
+    private func hideOrShowEmptyView(itemsCount: Int) {
+        let emptyView = EmptyView()
+        let message = searchController.isActive ? Strings.messageEmptySearching : Strings.messageEmptyFavorites
+        emptyView.configure(message: message)
+        booksTableView.backgroundView = itemsCount == 0 ? emptyView : nil
+    }
+        
+    private func showErrorAlert() {
+        let title = Strings.errorTitle
+        let message = Strings.errorMessage
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        
+        let accept = UIAlertAction(title: Strings.errorAccept, style: .default)
+        alert.addAction(accept)
+        
+        present(alert, animated: true)
     }
 }
 
@@ -150,17 +183,15 @@ extension HomeBooksViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        hideOrShowPaging()
+        hideOrShowEmptyView(itemsCount: viewModel.booksList.items.count)
         return viewModel.booksList.items.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let title = searchController.isActive ? "Results" : "Favorites"
-        
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FavoriteHeaderFooterView.viewName) as? FavoriteHeaderFooterView
+        let title = searchController.isActive ? Strings.resultTitle : Strings.favoritesTitle
+        let viewName = FavoriteHeaderFooterView.viewName
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: viewName) as? FavoriteHeaderFooterView
         header?.configure(title: title)
-        
         return header
     }
     

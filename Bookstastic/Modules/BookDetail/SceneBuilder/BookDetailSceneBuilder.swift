@@ -11,7 +11,9 @@ class BookDetailSceneBuilder {
     
     func build(book: Book) -> BookDetailViewController {
         let repository = BookDetailRepository(book: book)
-        let useCase = BookDetailUseCase(repository: repository)
+        let favoriteRepository = HomeBooksRepository()
+        let useCase = BookDetailUseCase(repository: repository,
+                                        favoriteRepository: favoriteRepository)
         let viewModel = BookDetailViewModel(useCase: useCase)
         let controller = BookDetailViewController(viewModel: viewModel)
         return controller

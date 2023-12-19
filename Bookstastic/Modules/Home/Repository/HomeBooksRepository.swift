@@ -72,24 +72,38 @@ class HomeBooksRepository: HomeBooksRepositoryProtocol {
     
     func removeBookAsFavorite(book: Book) -> AnyPublisher<Bool, Never> {
         let context = AppDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookLocal")
-        let predicate = NSPredicate(format: "identifier == %@", book.identifier)
-        request.predicate = predicate
-        
         return Future() { completion in
-            do {
-                let result = try context.fetch(request) as? [NSManagedObject] ?? []
-                guard let first = result.first else {
-                    return completion(.success(true))
-                }
-                
-                context.delete(first)
-                
-                try context.save()
+            
+            guard let book = self.fetchBook(from: context, with: book.identifier) else {
                 completion(.success(true))
-            } catch {
-                completion(.success(true))
+                return
             }
+            
+            context.delete(book)
+            try? context.save()
+            completion(.success(true))
         }.eraseToAnyPublisher()
+    }
+    
+    func checkIfIsFavorite(book: Book) -> AnyPublisher<Bool, Never> {
+        let context = AppDelegate.persistentContainer.viewContext
+        return Future() { completion in
+            guard let book = self.fetchBook(from: context, with: book.identifier) else {
+                completion(.success(false))
+                return
+            }
+            
+            print(book)
+            completion(.success(true))
+        }.eraseToAnyPublisher()
+    }
+    
+    private func fetchBook(from context: NSManagedObjectContext,
+                           with identifier: String) -> NSManagedObject? {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookLocal")
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        request.predicate = predicate
+        let result = try? context.fetch(request) as? [NSManagedObject] ?? []
+        return result?.first
     }
 }

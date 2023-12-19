@@ -71,16 +71,17 @@ class PagingView: UIView {
         backgroundColor = .systemGray6
         
         NSLayoutConstraint.activate([
+            horizontalStackView.heightAnchor.constraint(equalToConstant: 48.0),
             horizontalStackView.topAnchor.constraint(equalTo: topAnchor),
             horizontalStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            horizontalStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            horizontalStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             horizontalStackView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
     
     func updateCounter(current: Int, totalItems: Int) {
         previousButton.isEnabled = current > 1
-        nextButton.isEnabled = totalItems > 1
+        nextButton.isEnabled = totalItems > 9
         counterLabel.text = "Page \(current)"
     }
     

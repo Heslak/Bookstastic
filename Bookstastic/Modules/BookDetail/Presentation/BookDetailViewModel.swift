@@ -46,10 +46,32 @@ class BookDetailViewModel: BookDetailViewModelProtocol {
         }.store(in: &cancellable)
     }
     
+//    private func changeFavorite() {
+//        book?.isFavorite.toggle()
+//        guard let book = book else { return }
+//        output.showFavoriteChangePublisher.send(book)
+//    }
+    
     private func changeFavorite() {
         book?.isFavorite.toggle()
         guard let book = book else { return }
-        output.showFavoriteChangePublisher.send(book)
+        if book.isFavorite {
+            setBookAsFavorite(for: book)
+        } else {
+            removeBookAsFavorite(for: book)
+        }
+    }
+    
+    private func setBookAsFavorite(for book: Book) {
+        useCase.setBookAsFavorite(book: book).sink { [weak self] isSaved in
+            self?.output.showFavoriteChangePublisher.send(book)
+        }.store(in: &cancellable)
+    }
+    
+    private func removeBookAsFavorite(for book: Book) {
+        useCase.removeBookAsFavorite(book: book).sink { [weak self] _ in
+            self?.output.showFavoriteChangePublisher.send(book)
+        }.store(in: &cancellable)
     }
     
     private func shareBook() {

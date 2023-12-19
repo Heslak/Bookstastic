@@ -96,12 +96,12 @@ struct VolumeInfo: Decodable {
             }
             
             return rest + ", " + autor
-        } ?? ""
+        } ?? "No Info"
     }
     
     init?(from localVolumeInfo: NSManagedObject) {
         guard let title = localVolumeInfo.value(forKey: "title") as? String else { return nil }
-        guard let authors = localVolumeInfo.value(forKey: "authors") as? [String] else { return nil }
+        guard let authors = localVolumeInfo.value(forKey: "authors") as? [String]? else { return nil }
         guard let publishedDate = localVolumeInfo.value(forKey: "publishedDate") as? String? else { return nil }
         guard let description = localVolumeInfo.value(forKey: "desc") as? String? else { return nil }
         guard let pageCount = localVolumeInfo.value(forKey: "pageCount") as? Int? else { return nil }

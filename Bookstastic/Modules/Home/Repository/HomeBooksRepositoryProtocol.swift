@@ -13,5 +13,6 @@ protocol HomeBooksRepositoryProtocol {
     func fetchBooks(searchText: String, currentIndex: Int) -> AnyPublisher<BooksList, Error>?
     func setBookAsFavorite(book: Book) -> AnyPublisher<Bool, Never>
     func removeBookAsFavorite(book: Book) -> AnyPublisher<Bool, Never>
+    func checkIfIsFavorite(book: Book) -> AnyPublisher<Bool, Never>
 }
 
