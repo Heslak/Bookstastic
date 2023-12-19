@@ -16,6 +16,6 @@ enum HomeBooksStrings {
     static let messageEmptyFavorites = "Your favorite list is empty,\nsearch some books and add them to it"
     
     static let errorTitle = "An error courred"
-    static let errorMessage = "Something get wrong, try it again"
+    static let errorMessage = "Something went wrong, try it again"
     static let errorAccept = "Accept"
 }
