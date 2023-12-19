@@ -22,6 +22,13 @@ class HomeBooksViewController: UIViewController {
         return bTableView
     }()
     
+    private lazy var pagingView: PagingView = {
+        let pView = PagingView()
+        pView.translatesAutoresizingMaskIntoConstraints = false
+        pView.alpha = 0.0
+        return pView
+    }()
+    
     var searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Variables
@@ -49,14 +56,20 @@ class HomeBooksViewController: UIViewController {
     // MARK: - Private Methods
     private func setupController() {
         view.addSubview(booksTableView)
-        view.backgroundColor = .white
+        view.addSubview(pagingView)
+        view.backgroundColor = .systemGray6
         title = "Books"
         
         NSLayoutConstraint.activate([
             booksTableView.topAnchor.constraint(equalTo: view.topAnchor),
             booksTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             booksTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            booksTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            
+            pagingView.topAnchor.constraint(equalTo: booksTableView.bottomAnchor),
+            pagingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pagingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pagingView.heightAnchor.constraint(equalToConstant: 48.0),
+            pagingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"),
@@ -77,6 +90,10 @@ class HomeBooksViewController: UIViewController {
     }
     
     private func bind() {
+        
+        inputViewModel.increaseCounterPublisher = pagingView.increaseCounterPublisher
+        inputViewModel.decreaseCounterPublisher = pagingView.decreaseCounterPublisher
+        
         let output = viewModel.bind(input: inputViewModel)
         
         output.showFetchResultsPublisher.sink { [weak self] in
@@ -94,6 +111,9 @@ class HomeBooksViewController: UIViewController {
                           options: .transitionCrossDissolve) {
             self.booksTableView.reloadData()
         }
+        
+        pagingView.updateCounter(current: (viewModel.currentIndex/10 + 1),
+                                 totalItems: viewModel.booksList.items.count)
     }
     
     private func reloadCell(indexPath: IndexPath) {
@@ -108,6 +128,15 @@ class HomeBooksViewController: UIViewController {
         let cell = booksTableView.cellForRow(at: indexPath) as? BookTableViewCell
         cell?.changeFavorite(book: viewModel.booksList.items[indexPath.row])
     }
+    
+    private func hideOrShowPaging() {
+        UIView.transition(with: booksTableView,
+                          duration: 0.3,
+                          options: .transitionCrossDissolve) {
+            let hideOrShow = self.viewModel.booksList.items.count == 0 && self.viewModel.currentIndex == 0
+            self.pagingView.alpha = hideOrShow ? 0.0 : 1.0
+        }
+    }
 }
 
 // MARK: - TableView Functions
@@ -118,6 +147,7 @@ extension HomeBooksViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        hideOrShowPaging()
         return viewModel.booksList.items.count
     }
     

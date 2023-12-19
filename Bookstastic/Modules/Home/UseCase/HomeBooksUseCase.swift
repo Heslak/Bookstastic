@@ -16,7 +16,7 @@ class HomeBooksUseCase: HomeBooksUseCaseProtocol {
         self.repository = repository
     }
     
-    func fetchBooks(searchText: String) -> AnyPublisher<BooksList, Error>? {
-        return repository.fetchBooks(searchText: searchText)
+    func fetchBooks(searchText: String, currentIndex: Int) -> AnyPublisher<BooksList, Error>? {
+        return repository.fetchBooks(searchText: searchText, currentIndex: currentIndex)
     }
 }

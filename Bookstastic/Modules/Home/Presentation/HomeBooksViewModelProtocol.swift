@@ -9,6 +9,7 @@ import Foundation
 
 protocol HomeBooksViewModelProtocol {
     var booksList: BooksList { get set }
+    var currentIndex: Int { get set }
     
     func bind(input: HomeBooksViewModelInput) -> HomeBooksViewModelOutput
 }

@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol HomeBooksRepositoryProtocol {
-    func fetchBooks(searchText: String) -> AnyPublisher<BooksList, Error>?
+    func fetchBooks(searchText: String, currentIndex: Int) -> AnyPublisher<BooksList, Error>?
 }
 

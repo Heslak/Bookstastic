@@ -17,6 +17,19 @@ struct BooksList: Decodable {
         self.totalItems = totalItems
         self.items = items
     }
+    
+    enum CodingKeys: CodingKey {
+        case kind
+        case totalItems
+        case items
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.kind = try container.decode(String.self, forKey: .kind)
+        self.totalItems = try container.decode(Int.self, forKey: .totalItems)
+        self.items = try container.decodeIfPresent([Book].self, forKey: .items) ?? [Book]()
+    }
 }
 
 struct Book: Decodable {

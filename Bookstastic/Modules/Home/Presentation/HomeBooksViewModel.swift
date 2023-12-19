@@ -13,8 +13,13 @@ class HomeBooksViewModel: HomeBooksViewModelProtocol {
     // MARK: - Variables
     var useCase: HomeBooksUseCaseProtocol
     var booksList: BooksList = BooksList()
+    var currentIndex: Int = 0
+    
+    // MARK: - Private Variables
     private var output = HomeBooksViewModelOutput()
     private var cancellable = Set<AnyCancellable>()
+    private var currentSerchtext: String = String()
+    private var elementsPerPage = 10
     
     init(useCase: HomeBooksUseCaseProtocol) {
         self.useCase = useCase
@@ -35,12 +40,22 @@ class HomeBooksViewModel: HomeBooksViewModelProtocol {
             self?.changeFavorite(for: indexPath)
         }.store(in: &cancellable)
         
+        input.increaseCounterPublisher.sink { [weak self] in
+            self?.increaseCounter()
+        }.store(in: &cancellable)
+        
+        input.decreaseCounterPublisher.sink { [weak self] in
+            self?.decreaseCounter()
+        }.store(in: &cancellable)
+        
         return output
     }
     
     // MARK: - Private Methods
     private func fetchBooks(with searchText: String) {
-        useCase.fetchBooks(searchText: searchText)?.sink { [weak self] result in
+        self.currentSerchtext = searchText
+        useCase.fetchBooks(searchText: searchText,
+                           currentIndex: currentIndex)?.sink { [weak self] result in
             switch result {
             case .finished:
                 break
@@ -55,11 +70,24 @@ class HomeBooksViewModel: HomeBooksViewModelProtocol {
     
     private func cleanBooskList() {
         booksList = BooksList()
+        currentIndex = 0
         output.showFetchResultsPublisher.send()
     }
     
     private func changeFavorite(for indexPath: IndexPath) {
         booksList.items[indexPath.row].isFavorite.toggle()
         output.showFavoriteChangePublisher.send(indexPath)
+    }
+    
+    private func increaseCounter() {
+        guard booksList.items.count != 0 else { return }
+        currentIndex += elementsPerPage
+        fetchBooks(with: currentSerchtext)
+    }
+    
+    private func decreaseCounter() {
+        guard currentIndex > 0 else { return }
+        currentIndex -= elementsPerPage
+        fetchBooks(with: currentSerchtext)
     }
 }

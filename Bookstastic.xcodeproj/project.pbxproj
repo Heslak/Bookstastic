@@ -30,6 +30,7 @@
 		5945F1412B2D3D4B0011BC2F /* Bookstastic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F1402B2D3D4B0011BC2F /* Bookstastic.swift */; };
 		5945F1432B2D65E60011BC2F /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F1422B2D65E60011BC2F /* BookTableViewCell.swift */; };
 		5945F1452B2D6F480011BC2F /* BookInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F1442B2D6F480011BC2F /* BookInfoView.swift */; };
+		5945F14B2B30F6310011BC2F /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F14A2B30F6310011BC2F /* PagingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		5945F1402B2D3D4B0011BC2F /* Bookstastic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookstastic.swift; sourceTree = "<group>"; };
 		5945F1422B2D65E60011BC2F /* BookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
 		5945F1442B2D6F480011BC2F /* BookInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookInfoView.swift; sourceTree = "<group>"; };
+		5945F14A2B30F6310011BC2F /* PagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 				5945F0F02B2CEE540011BC2F /* HomeBooksViewController.swift */,
 				5945F1422B2D65E60011BC2F /* BookTableViewCell.swift */,
 				5945F1442B2D6F480011BC2F /* BookInfoView.swift */,
+				5945F14A2B30F6310011BC2F /* PagingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				5945F0F72B2CEE540011BC2F /* Bookstastic.xcdatamodeld in Sources */,
 				5945F1352B2D07980011BC2F /* HomeBooksRepositoryProtocol.swift in Sources */,
 				5945F1372B2D2F830011BC2F /* HomeBooksViewModelInput.swift in Sources */,
+				5945F14B2B30F6310011BC2F /* PagingView.swift in Sources */,
 				5945F13F2B2D3BA70011BC2F /* ApiRest.swift in Sources */,
 				5945F1432B2D65E60011BC2F /* BookTableViewCell.swift in Sources */,
 				5945F1312B2D07170011BC2F /* HomeBooksUseCaseProtocol.swift in Sources */,

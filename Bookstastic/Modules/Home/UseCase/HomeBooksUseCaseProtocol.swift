@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol HomeBooksUseCaseProtocol {
-    func fetchBooks(searchText: String) -> AnyPublisher<BooksList, Error>?
+    func fetchBooks(searchText: String, currentIndex: Int) -> AnyPublisher<BooksList, Error>?
 }
