@@ -10,7 +10,6 @@
 		5945F0ED2B2CEE540011BC2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0EC2B2CEE540011BC2F /* AppDelegate.swift */; };
 		5945F0EF2B2CEE540011BC2F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0EE2B2CEE540011BC2F /* SceneDelegate.swift */; };
 		5945F0F12B2CEE540011BC2F /* HomeBooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0F02B2CEE540011BC2F /* HomeBooksViewController.swift */; };
-		5945F0F72B2CEE540011BC2F /* Bookstastic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5945F0F52B2CEE540011BC2F /* Bookstastic.xcdatamodeld */; };
 		5945F0F92B2CEE550011BC2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5945F0F82B2CEE550011BC2F /* Assets.xcassets */; };
 		5945F0FC2B2CEE550011BC2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5945F0FA2B2CEE550011BC2F /* LaunchScreen.storyboard */; };
 		5945F1072B2CEE550011BC2F /* BookstasticTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F1062B2CEE550011BC2F /* BookstasticTests.swift */; };
@@ -42,6 +41,8 @@
 		5945F1632B3129100011BC2F /* BookDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F1622B3129100011BC2F /* BookDetailRepository.swift */; };
 		5945F1652B3129200011BC2F /* BookDetailRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F1642B3129200011BC2F /* BookDetailRepositoryProtocol.swift */; };
 		5945F1672B3132C80011BC2F /* DetailBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F1662B3132C80011BC2F /* DetailBookView.swift */; };
+		5945F1692B314C9E0011BC2F /* FavoriteHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5945F1682B314C9E0011BC2F /* FavoriteHeaderFooterView.swift */; };
+		5945F16C2B3152030011BC2F /* Bookstastic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5945F16A2B3152030011BC2F /* Bookstastic.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +67,6 @@
 		5945F0EC2B2CEE540011BC2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5945F0EE2B2CEE540011BC2F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5945F0F02B2CEE540011BC2F /* HomeBooksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBooksViewController.swift; sourceTree = "<group>"; };
-		5945F0F62B2CEE540011BC2F /* Bookstastic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bookstastic.xcdatamodel; sourceTree = "<group>"; };
 		5945F0F82B2CEE550011BC2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5945F0FB2B2CEE550011BC2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5945F0FD2B2CEE550011BC2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,6 +101,8 @@
 		5945F1622B3129100011BC2F /* BookDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailRepository.swift; sourceTree = "<group>"; };
 		5945F1642B3129200011BC2F /* BookDetailRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailRepositoryProtocol.swift; sourceTree = "<group>"; };
 		5945F1662B3132C80011BC2F /* DetailBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBookView.swift; sourceTree = "<group>"; };
+		5945F1682B314C9E0011BC2F /* FavoriteHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeaderFooterView.swift; sourceTree = "<group>"; };
+		5945F16B2B3152030011BC2F /* Bookstastic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bookstastic.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,8 +160,8 @@
 				5945F0EE2B2CEE540011BC2F /* SceneDelegate.swift */,
 				5945F0F82B2CEE550011BC2F /* Assets.xcassets */,
 				5945F0FA2B2CEE550011BC2F /* LaunchScreen.storyboard */,
+				5945F16A2B3152030011BC2F /* Bookstastic.xcdatamodeld */,
 				5945F0FD2B2CEE550011BC2F /* Info.plist */,
-				5945F0F52B2CEE540011BC2F /* Bookstastic.xcdatamodeld */,
 			);
 			path = Bookstastic;
 			sourceTree = "<group>";
@@ -209,6 +211,7 @@
 				5945F1422B2D65E60011BC2F /* BookTableViewCell.swift */,
 				5945F1442B2D6F480011BC2F /* BookInfoView.swift */,
 				5945F14A2B30F6310011BC2F /* PagingView.swift */,
+				5945F1682B314C9E0011BC2F /* FavoriteHeaderFooterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -462,7 +465,6 @@
 				5945F13C2B2D353B0011BC2F /* Book.swift in Sources */,
 				5945F1572B3128220011BC2F /* BookDetailViewModelInput.swift in Sources */,
 				5945F0ED2B2CEE540011BC2F /* AppDelegate.swift in Sources */,
-				5945F0F72B2CEE540011BC2F /* Bookstastic.xcdatamodeld in Sources */,
 				5945F1352B2D07980011BC2F /* HomeBooksRepositoryProtocol.swift in Sources */,
 				5945F1372B2D2F830011BC2F /* HomeBooksViewModelInput.swift in Sources */,
 				5945F14B2B30F6310011BC2F /* PagingView.swift in Sources */,
@@ -473,9 +475,11 @@
 				5945F1592B31282D0011BC2F /* BookDetailViewModelOutput.swift in Sources */,
 				5945F15D2B31284F0011BC2F /* BookDetailUseCase.swift in Sources */,
 				5945F12D2B2D06E20011BC2F /* HomeBooksViewModelProtocol.swift in Sources */,
+				5945F16C2B3152030011BC2F /* Bookstastic.xcdatamodeld in Sources */,
 				5945F1532B3127960011BC2F /* BookDetailViewModelProtocol.swift in Sources */,
 				5945F0EF2B2CEE540011BC2F /* SceneDelegate.swift in Sources */,
 				5945F1632B3129100011BC2F /* BookDetailRepository.swift in Sources */,
+				5945F1692B314C9E0011BC2F /* FavoriteHeaderFooterView.swift in Sources */,
 				5945F1652B3129200011BC2F /* BookDetailRepositoryProtocol.swift in Sources */,
 				5945F14F2B3127120011BC2F /* BookDetailViewController.swift in Sources */,
 				5945F12B2B2D06D90011BC2F /* HomeBooksViewModel.swift in Sources */,
@@ -823,12 +827,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		5945F0F52B2CEE540011BC2F /* Bookstastic.xcdatamodeld */ = {
+		5945F16A2B3152030011BC2F /* Bookstastic.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				5945F0F62B2CEE540011BC2F /* Bookstastic.xcdatamodel */,
+				5945F16B2B3152030011BC2F /* Bookstastic.xcdatamodel */,
 			);
-			currentVersion = 5945F0F62B2CEE540011BC2F /* Bookstastic.xcdatamodel */;
+			currentVersion = 5945F16B2B3152030011BC2F /* Bookstastic.xcdatamodel */;
 			path = Bookstastic.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

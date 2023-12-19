@@ -51,6 +51,7 @@ class BookInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup View
     func setupView() {
         addSubview(bookTitleLabel)
         addSubview(bookAuthorsLabel)

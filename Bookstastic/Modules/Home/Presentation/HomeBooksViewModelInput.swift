@@ -11,7 +11,7 @@ import Combine
 struct HomeBooksViewModelInput {
     let viewDidLoadPublisher = PassthroughSubject<Void, Never>()
     let fetchBooksPublisher = PassthroughSubject<String, Never>()
-    let cleanBooksListPublisher = PassthroughSubject<Void, Never>()
+    let cleanBooksListPublisher = PassthroughSubject<Bool, Never>()
     
     var changeFavoritePublisher = PassthroughSubject<IndexPath, Never>()
     var increaseCounterPublisher = PassthroughSubject<Void, Never>()

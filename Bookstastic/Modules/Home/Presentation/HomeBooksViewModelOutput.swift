@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 struct HomeBooksViewModelOutput {
+    let showErrorAlertPublisher = PassthroughSubject<Void, Never>()
     let showFetchResultsPublisher = PassthroughSubject<Void, Never>()
     let showFavoriteChangePublisher = PassthroughSubject<IndexPath, Never>()
 }

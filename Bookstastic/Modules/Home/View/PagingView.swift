@@ -10,6 +10,7 @@ import Combine
 
 class PagingView: UIView {
     
+    // MARK: - UI Components
     private lazy var horizontalStackView: UIStackView = {
         let hStackView = UIStackView()
         hStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,6 +60,7 @@ class PagingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup View
     @objc private func setupView() {
         addSubview(horizontalStackView)
         
@@ -82,6 +84,7 @@ class PagingView: UIView {
         counterLabel.text = "Page \(current)"
     }
     
+    // MARK: - Private Methods
     @objc private func nextButtonPressed() {
         increaseCounterPublisher.send()
     }

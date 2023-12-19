@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23B74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BookLocal" representedClassName="BookLocal" syncable="YES" codeGenerationType="class">
+        <attribute name="etag" optional="YES" attributeType="String"/>
+        <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="kind" optional="YES" attributeType="String"/>
+        <attribute name="selfLink" optional="YES" attributeType="String"/>
+        <relationship name="volumeInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="VolumeInfoLocal" inverseName="book" inverseEntity="VolumeInfoLocal"/>
+    </entity>
+    <entity name="ImageLinksLocal" representedClassName="ImageLinksLocal" syncable="YES" codeGenerationType="class">
+        <attribute name="smallThumbnail" optional="YES" attributeType="String"/>
+        <attribute name="thumbnail" optional="YES" attributeType="String"/>
+        <relationship name="volumeInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="VolumeInfoLocal" inverseName="imageLinks" inverseEntity="VolumeInfoLocal"/>
+    </entity>
+    <entity name="VolumeInfoLocal" representedClassName="VolumeInfoLocal" syncable="YES" codeGenerationType="class">
+        <attribute name="allowAnonLogging" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="authors" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="canonicalVolumeLink" optional="YES" attributeType="String"/>
+        <attribute name="contentVersion" optional="YES" attributeType="String"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="infoLink" optional="YES" attributeType="String"/>
+        <attribute name="language" optional="YES" attributeType="String"/>
+        <attribute name="maturityRating" optional="YES" attributeType="String"/>
+        <attribute name="pageCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="previewLink" optional="YES" attributeType="String"/>
+        <attribute name="printType" optional="YES" attributeType="String"/>
+        <attribute name="publishedDate" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookLocal" inverseName="volumeInfo" inverseEntity="BookLocal"/>
+        <relationship name="imageLinks" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ImageLinksLocal" inverseName="volumeInfo" inverseEntity="ImageLinksLocal"/>
+    </entity>
 </model>

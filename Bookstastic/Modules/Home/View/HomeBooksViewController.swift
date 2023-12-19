@@ -16,7 +16,10 @@ class HomeBooksViewController: UIViewController {
         bTableView.translatesAutoresizingMaskIntoConstraints = false
         bTableView.dataSource = self
         bTableView.delegate = self
-        bTableView.register(BookTableViewCell.self, forCellReuseIdentifier: BookTableViewCell.cellName)
+        bTableView.register(BookTableViewCell.self,
+                            forCellReuseIdentifier: BookTableViewCell.cellName)
+        bTableView.register(FavoriteHeaderFooterView.self,
+                            forHeaderFooterViewReuseIdentifier: FavoriteHeaderFooterView.viewName)
         bTableView.backgroundColor = .systemGray6
         bTableView.separatorStyle = .none
         return bTableView
@@ -52,6 +55,7 @@ class HomeBooksViewController: UIViewController {
         setupController()
         setupSearchController()
         bind()
+        inputViewModel.viewDidLoadPublisher.send()
     }
 
     // MARK: - Private Methods
@@ -72,11 +76,6 @@ class HomeBooksViewController: UIViewController {
             pagingView.heightAnchor.constraint(equalToConstant: 48.0),
             pagingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
-        let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"),
-                                            style: .plain, target: self,
-                                            action: #selector(goToFavorite))
-        navigationItem.setRightBarButton(barButtonItem, animated: true)
     }
 
     private func setupSearchController() {
@@ -91,7 +90,6 @@ class HomeBooksViewController: UIViewController {
     }
     
     private func bind() {
-        
         inputViewModel.increaseCounterPublisher = pagingView.increaseCounterPublisher
         inputViewModel.decreaseCounterPublisher = pagingView.decreaseCounterPublisher
         
@@ -107,27 +105,31 @@ class HomeBooksViewController: UIViewController {
     }
     
     private func fillWithData() {
-        UIView.transition(with: booksTableView,
-                          duration: 0.3,
-                          options: .transitionCrossDissolve) {
-            self.booksTableView.reloadData()
+        DispatchQueue.main.async {
+            UIView.transition(with: self.booksTableView,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve) {
+                self.booksTableView.reloadData()
+            }
+            
+            self.pagingView.updateCounter(current: (self.viewModel.currentIndex/10 + 1),
+                                     totalItems: self.viewModel.booksList.items.count)
         }
-        
-        pagingView.updateCounter(current: (viewModel.currentIndex/10 + 1),
-                                 totalItems: viewModel.booksList.items.count)
     }
     
     private func reloadCell(indexPath: IndexPath) {
         self.booksTableView.reloadRows(at: [indexPath], with: .none)
     }
     
-    @objc private func goToFavorite() {
-        print("Favorite")
-    }
-    
     private func changeFavorite(for indexPath: IndexPath) {
-        let cell = booksTableView.cellForRow(at: indexPath) as? BookTableViewCell
-        cell?.changeFavorite(book: viewModel.booksList.items[indexPath.row])
+        if searchController.isActive {
+            let cell = booksTableView.cellForRow(at: indexPath) as? BookTableViewCell
+            cell?.changeFavorite(book: viewModel.booksList.items[indexPath.row])
+        } else {
+            viewModel.booksList.items.remove(at: indexPath.row)
+            booksTableView.deleteRows(at: [indexPath], with: .left)
+            fillWithData()
+        }
     }
     
     private func hideOrShowPaging() {
@@ -152,12 +154,24 @@ extension HomeBooksViewController: UITableViewDataSource, UITableViewDelegate {
         return viewModel.booksList.items.count
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let title = searchController.isActive ? "Results" : "Favorites"
+        
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FavoriteHeaderFooterView.viewName) as? FavoriteHeaderFooterView
+        header?.configure(title: title)
+        
+        return header
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: BookTableViewCell.cellName, for: indexPath)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   willDisplay cell: UITableViewCell,
+                   forRowAt indexPath: IndexPath) {
         if let cell = cell as? BookTableViewCell {
             cell.configure(book: viewModel.booksList.items[indexPath.row],
                            changeFavoritePublisher: inputViewModel.changeFavoritePublisher,
@@ -180,16 +194,17 @@ extension HomeBooksViewController: UITableViewDataSource, UITableViewDelegate {
 extension HomeBooksViewController: UISearchResultsUpdating {
      
     func updateSearchResults(for searchController: UISearchController) {
-        
-        guard let searchText =  searchController.searchBar.text, searchText != "" else {
-            inputViewModel.cleanBooksListPublisher.send()
-            return
-        }
-        
+        guard let searchText = searchController.searchBar.text else { return }
+        let isActive = searchController.isActive
         searchTask?.cancel()
         
         let task = DispatchWorkItem { [weak self] in
            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+               guard searchText != "" else {
+                   self?.inputViewModel.cleanBooksListPublisher.send(isActive)
+                   return
+               }
+               
                self?.inputViewModel.fetchBooksPublisher.send(searchText)
            }
          }
