@@ -38,7 +38,7 @@ class BookTableViewCell: UITableViewCell {
         return bInfoView
     }()
     
-    private var subscribers = Set<AnyCancellable>()
+    private var cancellable = Set<AnyCancellable>()
     private var currentUrl: String = ""
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -98,13 +98,18 @@ class BookTableViewCell: UITableViewCell {
         guard let currentUrl = book.volumeInfo.imageLinks?.smallThumbnail else { return }
         self.currentUrl = currentUrl
         
-        ApiRest.shared.get(from: currentUrl)?.sink(receiveCompletion: { _ in
-            
-        }, receiveValue: { [weak self] data in
+        ApiRest.shared.get(from: currentUrl)?.sink { [weak self] result in
+            switch result {
+            case .finished:
+                break
+            case .failure(_):
+                self?.bookImageView.image =  UIImage(named: "placeholder")
+            }
+        } receiveValue: { [weak self] data in
             if self?.currentUrl == currentUrl {
                 self?.bookImageView.image = UIImage(data: data)
             }
-        }).store(in: &subscribers)
+        }.store(in: &cancellable)
     }
     
     func changeFavorite(book: Book) {

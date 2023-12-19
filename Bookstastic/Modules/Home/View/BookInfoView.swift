@@ -20,23 +20,23 @@ class BookInfoView: UIView {
         return bTitleLabel
     }()
     
-    private lazy var bookDescriptionLabel: UILabel = {
-        let bDescriptionLabel = UILabel()
-        bDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        bDescriptionLabel.font = .systemFont(ofSize: 15.0)
-        bDescriptionLabel.textColor = .lightGray
-        bDescriptionLabel.numberOfLines = 0
-        return bDescriptionLabel
+    private lazy var bookAuthorsLabel: UILabel = {
+        let bAuthorsLabel = UILabel()
+        bAuthorsLabel.translatesAutoresizingMaskIntoConstraints = false
+        bAuthorsLabel.font = .systemFont(ofSize: 15.0)
+        bAuthorsLabel.textColor = .lightGray
+        bAuthorsLabel.numberOfLines = 0
+        return bAuthorsLabel
     }()
     
     private lazy var favoriteButton: UIButton = {
-        let fImageView = UIButton()
-        fImageView.translatesAutoresizingMaskIntoConstraints = false
+        let fButton = UIButton()
+        fButton.translatesAutoresizingMaskIntoConstraints = false
         let starImage = UIImage(systemName: "star")
-        fImageView.setImage(starImage, for: .normal)
-        fImageView.contentMode = .scaleAspectFill
-        fImageView.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
-        return fImageView
+        fButton.setImage(starImage, for: .normal)
+        fButton.contentMode = .scaleAspectFill
+        fButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
+        return fButton
     }()
         
     private var indexPath = IndexPath()
@@ -53,7 +53,7 @@ class BookInfoView: UIView {
     
     func setupView() {
         addSubview(bookTitleLabel)
-        addSubview(bookDescriptionLabel)
+        addSubview(bookAuthorsLabel)
         addSubview(favoriteButton)
         
         NSLayoutConstraint.activate([
@@ -61,12 +61,12 @@ class BookInfoView: UIView {
             bookTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15.0),
             bookTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            bookDescriptionLabel.topAnchor.constraint(equalTo: bookTitleLabel.bottomAnchor,
+            bookAuthorsLabel.topAnchor.constraint(equalTo: bookTitleLabel.bottomAnchor,
                                                       constant: 10.0),
-            bookDescriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15.0),
-            bookDescriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            bookDescriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18.0),
-            bookDescriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: favoriteButton.topAnchor,
+            bookAuthorsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15.0),
+            bookAuthorsLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bookAuthorsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18.0),
+            bookAuthorsLabel.bottomAnchor.constraint(lessThanOrEqualTo: favoriteButton.topAnchor,
                                                          constant: -5),
 
             favoriteButton.heightAnchor.constraint(equalToConstant: 20.0),
@@ -83,7 +83,7 @@ class BookInfoView: UIView {
         self.changeFavoritePublisher = changeFavoritePublisher
         
         bookTitleLabel.text = book.volumeInfo.title
-        bookDescriptionLabel.text = book.volumeInfo.getAuthors()
+        bookAuthorsLabel.text = book.volumeInfo.getAuthors()
         let favoriteImage = UIImage(systemName: book.isFavorite ? "star.fill" : "star")
         favoriteButton.setImage(favoriteImage, for: .normal)
     }

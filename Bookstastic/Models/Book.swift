@@ -53,6 +53,7 @@ struct VolumeInfo: Decodable {
     let title: String
     let authors: [String]?
     let publishedDate: String?
+    let description: String?
     let industryIdentifiers: [IndustryIdentifiers]?
     let pageCount: Int?
     let printType: String

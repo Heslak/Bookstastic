@@ -30,6 +30,7 @@ class HomeBooksViewController: UIViewController {
     }()
     
     var searchController = UISearchController(searchResultsController: nil)
+    var searchTask: DispatchWorkItem?
     
     // MARK: - Variables
     var viewModel: HomeBooksViewModelProtocol
@@ -169,7 +170,9 @@ extension HomeBooksViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("go to Book Detail")
+        let book = viewModel.booksList.items[indexPath.row]
+        let controller = BookDetailSceneBuilder().build(book: book)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 
@@ -183,6 +186,16 @@ extension HomeBooksViewController: UISearchResultsUpdating {
             return
         }
         
-        inputViewModel.fetchBooksPublisher.send(searchText)
+        searchTask?.cancel()
+        
+        let task = DispatchWorkItem { [weak self] in
+           DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+               self?.inputViewModel.fetchBooksPublisher.send(searchText)
+           }
+         }
+        
+         self.searchTask = task
+         
+         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: task)
     }
 }
